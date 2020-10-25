@@ -85,12 +85,101 @@ License URL: https://creativecommons.org/licenses/by/4.0/
             }
           </style>
           <div class="img-container">
-        <img src="img/content/influxdb.png" style="align-items: center;" class="image-center" alt=""> <br><br><p class="mb-5" style="margin-left: 5%; margin-right: 5%; text-align: justify;" ><i>InfluxDB is an open-source time series database developed by InfluxData. It is written in Go and optimized for fast, high-availability storage and retrieval of time series data in fields such as operations monitoring, application metrics, Internet of Things sensor data, and real-time analytics.</i></p>
+        <img src="img/content/influxdb/influxdb.png" style="align-items: center;" class="image-center" alt=""> <br><br><p class="mb-5" style="margin-left: 5%; margin-right: 5%; text-align: justify;" ><i>InfluxDB is an open-source time series database developed by InfluxData. It is written in Go and optimized for fast, high-availability storage and retrieval of time series data in fields such as operations monitoring, application metrics, Internet of Things sensor data, and real-time analytics.</i></p>
       </div> <!-- end image center -->
+
+      <p style="margin-left: 5%; margin-right: 5%; text-align: justify;" >There are tutorials about InfluxDB installation on the official page for operating systems such as Ubuntu & Debian, Red Hat & centOS, SLES & openSUSE, FreeBSD/PC-BSD, and macOS, you can follow the tutorial <a href="https://docs.influxdata.com/influxdb/v1.8/introduction/install/" target="_blank">here</a>. But in this tutorial, I will explain about installation in the Windows operating system and make sure you have installed the x64bit version because InfluxDB no longer supports for x32bit machine type.</p>
+      <br>
       <h3 style="margin-left: 5%;">Download InfluxDB</h3>
       <p style="margin-left: 5%; margin-right: 5%; text-align: justify;">Download the latest InfluxDB open source (OSS) release at the <a href="https://portal.influxdata.com/downloads/" target="_blank">InfluxData download page.</a></p>
+
+      <div style="margin-left: 5%; margin-right: 5%; text-align: justify;">
+        <img src="img/content/influxdb/1.jpg"><br>
+        Click on the marked button which opens new window. In new window scroll till you reach Window binaries.<br><br>
+        <img src="img/content/influxdb/2.jpg"><br>
+        <ul>
+        <li>Click on the URL in the  box, and the download will  start </li>
+        <li>Unzip the downloaded file to a preferred location</li>
+        <li>Below is the file content after extraction :</li>
+        </ul>
+        <img src="img/content/influxdb/3.jpg">
+        <ul>
+          Below 3 files are of interest to us for now :
+          <li><b>influx.exe</b> : Command-line interface to connect to the database & execute queries</li>
+          <li><b>influxd.exe</b> : Launch  InfluxDB server</li>
+          <li><b>influxdb.conf</b> : Configure InfluxDB instance</li>
+        </ul>      
+      </div>
+      <br>
+      <h3 style="margin-left: 5%;">Configure InfluxDB Instance</h3>
+      <p style="margin-left: 5%; margin-right: 5%; text-align: justify;">
+        Configure InfluxDB instance by editing conf file as below :<br>
+        Add folders named <b>data, meta & wal</b> inside the parent folder where InfluxDB is extracted<br>
+        <img src="img/content/influxdb/4.jpg"><br><br>
+        Open conf file for editing:<br>
+        <img src="img/content/influxdb/5.jpg"><br><br>
+        Change the following sections : <i>Note double slash instead of single!</i><br>Located the section based on the folder created above<br><br>
+        <b>META SECTION</b><br>
+        <img src="img/content/influxdb/meta.jpg"><br>
+        <b>DATA & WAL SECTION</b><br>
+        <img src="img/content/influxdb/data+wal.jpg"><br>
+        <br>
+      </p>
+        <h3 style="margin-left: 5%;">Start InfluxDB server</h3>
+        <p style="margin-left: 5%; margin-right: 5%; text-align: justify;">
+          Start the InfluxDB server by double-clicking <b>influxd</b> or by going to command prompt & running command.<br>
+          <img src="img/content/influxdb/6.jpg"><br>
+          You might get firewall permission issue and need to accept to take it forward. Finally, you should see below :<br>
+          <img src="img/content/influxdb/7.jpg"><br>
+          <b>MAKE SURE YOU ALWAYS RUN THE "influxd.exe" to process InfluxDB. Once it down, so the data process will be terminated</b><br><br>
+          By default, logs are shown on standard output console.
+          To redirect log output to file: Go to the command prompt -> location of InfluxDB directory and run command below:<br>
+          <b>influxd.exe  2><location of logfile>\logfile.log</b><br><br>
+          If you do any changes in conf file, run below command to make changes effective:<br>
+          <b>influxd.exe -config influxdb.conf 2><location of logfile>\logfile.log</b><br><br>
+        </p>
+
+        <h3 style="margin-left: 5%;">Verify Configuration</h3>
+        <p style="margin-left: 5%; margin-right: 5%; text-align: justify;">
+          Since HTTP endpoint is enabled in the conf file, we can check by launching HTTP endpoint at configured port. Launch url - <a href="http://localhost:8086/query" taget="_blank">http://localhost:8086/query</a>. Below page should follow :<br>
+          <img src="img/content/influxdb/8.jpg"><br>
+        </p>
+        
+        <h3 style="margin-left: 5%;">Start InfluxDB as a service</h3>
+        <p style="margin-left: 5%; margin-right: 5%; text-align: justify;">
+          We need to start InfluxDB server by the above way every time we want to get started which is a hassle. It is preferable to run it as service for the same reason. To run InfluxDB as a service :<br>
+          <ul style="margin-left: 5%; margin-right: 5%; text-align: justify;">
+          <li><a href="https://nssm.cc/download" target="_blank">Download nssm utility</a></li>
+          <li>Open a command prompt as an admin and go to the location of nssm utility command</li>
+          <li>nssm install</li>
+          <li>Following window should open to configure service.</li>
+          <li>Enter the path for InfluxD & conf file as below :  </li>
+          <li>Argument -> -config "<location of dir>/influxdb.conf"</li>
+          <li>ServiceName--> InfluxDB</li>
+          <li>Startup  type -->Automatic</li>
+          <li>Service start successfully message should be received once pressed ok</li>
+          </ul>
+          <p style="margin-left: 5%; margin-right: 5%; text-align: justify;">
+          <div style="margin-left: 5%; margin-right: 5%; text-align: justify;">
+            <img src="img/content/influxdb/9.jpg"><br></div>
+        </p>
+
+        <h3 style="margin-left: 5%;">Install Influx CLI & Get Started</h3>
+        <p style="margin-left: 5%; margin-right: 5%; text-align: justify;">
+          Double click marked exe to start Influx CLI<br>
+          <img src="img/content/influxdb/10.jpg"><br><br>
+          You should see below interface<br>
+          <img src="img/content/influxdb/11.jpg"><br><br>
+          Congratulations! You are ready to create DB, measurements and perform IFQL commands!
+        </p>
+
       
-        <p style="margin-left: 5%; margin-right: 5%; text-align: justify;" >There are tutorials about InfluxDB installation on the official page for operating systems such as Ubuntu & Debian, Red Hat & centOS, SLES & openSUSE, FreeBSD/PC-BSD, and macOS, you can follow the tutorial <a href="https://docs.influxdata.com/influxdb/v1.8/introduction/install/" target="_blank">here</a>. But in this tutorial, I will explain about installation in the Windows operating system and make sure you have installed the x64bit version because InfluxDB no longer supports for x32bit machine type.</p><br>
+      
+
+      
+
+            
+
 
         </div>
         </section>
