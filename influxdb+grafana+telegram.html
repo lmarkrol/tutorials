@@ -108,6 +108,20 @@ License URL: https://creativecommons.org/licenses/by/4.0/
       <i></i>
       </ul>
       <img src="img/content/grafana/3.jpg"><br><br>
+      When you have done with grafana dashboard configuration, the dashboard will show like this<br><br>
+      <img src="img/content/grafana/4.jpg"><br><br>
+      After that we need to make a notification alert using telegram apps, when we have done and get the <mark>API keys</mark> and <mark>User ID</mark> so we can go and open the link <a href="http://127.0.0.1:3000/alerting/notification/new">http://127.0.0.1:3000/alerting/notification/new</a><br><br>
+      <img src="img/content/grafana/5.jpg"><br><br>
+      Edit the notification channel by changing the <mark>Type</mark> with <mark>Telegram</mark>, filling the <mark>Name</mark> using your <mark>Telegram Username</mark>, <mark>BOT API Token</mark>, and <mark>Chat ID</mark> as we get in the past tutorial. After that we can test the alert by clicking the <mark>Test</mark> button.<br><br>
+      <img src="img/content/grafana/6.jpg"><br><br>
+      Go to the main dasboard and try to edit one<br><br>
+      <img src="img/content/grafana/7.jpg"><br><br>
+      Move to the <mark>Alert</mark> tab and edit the <mark>Rule</mark> and <mark>Conditions</mark>. Change the <mark>Alert Name</mark> and <mark>Evaluate every</mark> as you want, for the example I want to make a notification every 1 minutes in evaluate the data every 10 seconds. For the <mark>Conditions</mark> I use the <mark>last()</mark> latest data of <mark>query(A, 10s, now)</mark> every 10 seconds when the data <mark>IS ABOVE <b>7</b></mark>.<br><br>
+      <img src="img/content/grafana/8.jpg"><br><br>
+      Make sure your <mark>BOT API Token</mark> and <mark>Chat ID</mark> is true, so when the data is match with the threshold limit, Grafana will send a notification into your telegram group when the bot is included.<br><br>
+      <img src="img/content/grafana/9.jpg" width="90%"><br><br>
+
+
      
 
       </div>
